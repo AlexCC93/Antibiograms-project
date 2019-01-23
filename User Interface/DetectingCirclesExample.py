@@ -63,7 +63,7 @@ def imageFilter():
     resultImage=BlurredImage
     return resultImage, GrayscaleImage
 
-img = cv2.imread('.\Picture 2.jpg')
+img = cv2.imread('.\picture.jpeg')
 RGBimg=cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
 auxImg=RGBimg.copy()
 auxImg2=RGBimg.copy()
@@ -79,3 +79,11 @@ antibioticCircles = cv2.HoughCircles(filteredImage,cv2.HOUGH_GRADIENT,1,25,param
 antibioticCircles = np.uint16(np.around(antibioticCircles))
 drawCircles(antibioticCircles,auxImg2)
 showResults()
+print(type(circles))
+# print(type(antibioticCircles))
+print(circles)
+x,y,z=np.shape(circles)
+print(x)
+print(y) 
+print(z)
+# print(antibioticCircles)
