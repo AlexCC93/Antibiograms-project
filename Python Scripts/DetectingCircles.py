@@ -63,7 +63,7 @@ def imageFilter():
     resultImage=BlurredImage
     return resultImage, GrayscaleImage
 
-img = cv2.imread('E:\Alex 2018 - 2do Semestre\Docencia UCB\Antibiograms project\Antibiograms pictures\Picture 1.jpg')
+img = cv2.imread('.\Picture 6.jpg')
 RGBimg=cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
 auxImg=RGBimg.copy()
 auxImg2=RGBimg.copy()
