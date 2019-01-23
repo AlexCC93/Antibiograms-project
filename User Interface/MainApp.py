@@ -28,28 +28,41 @@ class antibiogApp(wx.Frame):
 		  
 		if flag_main_window==1:
 			
-			
+			#self.Bind(wx.EVT_CLOSE, self.onEventClose)
 			self.panel=wx.Panel(self)
+			self.panel.SetBackgroundColour(wx.BLACK)
+			fonte=wx.Font(14,wx.FONTFAMILY_DEFAULT,wx.FONTSTYLE_NORMAL,wx.FONTWEIGHT_BOLD)
 			vert_menu_box=wx.BoxSizer(wx.VERTICAL)
 			
-			button_new=wx.Button(self.panel,wx.ID_ANY,label='Nuevo')
+			button_new=wx.Button(self.panel,wx.ID_ANY,label='Nuevo',size=(350,40))
+			button_new.SetFont(fonte)
+			button_new.SetBackgroundColour(wx.BLACK)
+			button_new.SetForegroundColour(wx.WHITE)
 			self.panel.Bind(wx.EVT_BUTTON,onButtonNewPress,button_new)
 			vert_menu_box.Add(button_new,flag=wx.ALIGN_CENTER|wx.ALL|wx.EXPAND,border=10)
 
-			button_cred=wx.Button(self.panel,wx.ID_ANY,label='Creditos')
+			button_cred=wx.Button(self.panel,wx.ID_ANY,label='Creditos',size=(350,40))
+			button_cred.SetFont(fonte)
+			button_cred.SetBackgroundColour(wx.BLACK)
+			button_cred.SetForegroundColour(wx.WHITE)
 			self.panel.Bind(wx.EVT_BUTTON ,onButtonCredPress , button_cred)
 			vert_menu_box.Add(button_cred,flag=wx.ALIGN_CENTER|wx.ALL|wx.EXPAND,border=10)
 
-			button_close=wx.Button(self.panel,wx.ID_ANY,label='Cerrar')
+			button_close=wx.Button(self.panel,wx.ID_ANY,label='Cerrar',size=(350,40))
+			button_close.SetFont(fonte)
+			button_close.SetBackgroundColour(wx.BLACK)
+			button_close.SetForegroundColour(wx.WHITE)
 			self.panel.Bind(wx.EVT_BUTTON , self.onEventClose ,button_close)
 			vert_menu_box.Add(button_close,flag=wx.ALIGN_CENTER|wx.ALL|wx.EXPAND,border=10)
 
+			self.logo_cato = wx.StaticBitmap(self.panel,wx.ID_ANY,wx.Bitmap("LogoCatoBW.jpg",wx.BITMAP_TYPE_ANY))
+			vert_menu_box.Add(self.logo_cato,flag=wx.ALIGN_BOTTOM|wx.ALIGN_CENTRE|wx.ALL , border=0)
 
 
 			self.panel.SetSizer(vert_menu_box)
 
-			self.SetSizeWH(350,350)
-			self.SetSizeHints(250,250,400,400)
+			self.SetSizeWH(300,500)
+			self.SetSizeHints(300,500,350,535)
 
 		
 		elif flag_main_window==2:
@@ -63,10 +76,15 @@ class antibiogApp(wx.Frame):
 		self.Show(True)
 
 
-
 	def onEventClose(self,e):
-		self.Close()
-			
+		# self.Close()
+		dial = wx.MessageDialog(None, 'Estas seguro?', 'Pregunta',    wx.YES_NO | wx.NO_DEFAULT | wx.ICON_QUESTION)
+		ret = dial.ShowModal()
+		if ret == wx.ID_YES:
+			self.Destroy()
+		else:
+			e.Veto()
+	
 			
 def onButtonNewPress(e):
 	global wind_app
