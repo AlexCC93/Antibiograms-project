@@ -31,9 +31,8 @@ class antibiogApp(wx.Frame):
 		global flag_main_window
 		global circles
 		#Menu window  
-		if flag_main_window==1:
+		if flag_main_window==1 or flag_main_window==4:
 			
-			#self.Bind(wx.EVT_CLOSE, self.onEventClose)
 			self.panel=wx.Panel(self)
 			self.panel.SetBackgroundColour(wx.BLACK)
 			fonte=wx.Font(14,wx.FONTFAMILY_DEFAULT,wx.FONTSTYLE_NORMAL,wx.FONTWEIGHT_BOLD)
@@ -57,7 +56,7 @@ class antibiogApp(wx.Frame):
 			button_close.SetFont(fonte)
 			button_close.SetBackgroundColour(wx.BLACK)
 			button_close.SetForegroundColour(wx.WHITE)
-			self.panel.Bind(wx.EVT_BUTTON , self.onEventClose ,button_close)
+			self.panel.Bind(wx.EVT_BUTTON , self.OnCloseWindow ,button_close)
 			vert_menu_box.Add(button_close,flag=wx.ALIGN_CENTER|wx.ALL|wx.EXPAND,border=10)
 
 			self.logo_cato = wx.StaticBitmap(self.panel,wx.ID_ANY,wx.Bitmap("LogoCatoBW.jpg",wx.BITMAP_TYPE_ANY))
@@ -80,7 +79,8 @@ class antibiogApp(wx.Frame):
 			box_results.SetFont(fonte2)
 			box_vert_data=wx.StaticBoxSizer(box_results,wx.VERTICAL)
 			box_hor_buttons=wx.BoxSizer(wx.HORIZONTAL)
-
+			# self.panel_2.SetBackgroundColour('#f9f4d1')
+			# box_results.SetBackgroundColour(wx.Colour(240,240,240))
 			
 			#Data Display 
 			m,n,s = np.shape(circles)
@@ -90,6 +90,7 @@ class antibiogApp(wx.Frame):
 				text.append('Centro x: '+str(circles[0,x,0])+'	Centro y: '+str(circles[0,x,1])+'	Radio: '+str(circles[0,x,2]))
 				static_texts.append(wx.StaticText(self.panel_2,label=text[x],style=wx.ALIGN_LEFT,size=(340,16)))
 				static_texts[x].SetFont(fonte2)
+				# static_texts[x].SetBackgroundColour(wx.Colour(240,240,240))
 				box_vert_data.Add(static_texts[x], flag=wx.ALL|wx.EXPAND,border=6)
 
 
@@ -99,20 +100,30 @@ class antibiogApp(wx.Frame):
 
 
 			#Buttons 
-			button_new_picture=wx.Button(self.panel_2,label='Nueva Foto',size=(180,60))
-			button_edit=wx.Button(self.panel_2,label='Editar',size=(180,60))
-			button_save=wx.Button(self.panel_2,label='Guardar',size=(180,60))
-			button_back=wx.Button(self.panel_2,label='Atras',size=(180,60))
+			button_new_picture=wx.Button(self.panel_2,wx.ID_ANY,label='Procesar',size=(180,60))
+			button_edit=wx.Button(self.panel_2,wx.ID_ANY,label='Editar',size=(180,60))
+			button_save=wx.Button(self.panel_2,wx.ID_ANY,label='Guardar',size=(180,60))
+			button_back=wx.Button(self.panel_2,wx.ID_ANY,label='Atras',size=(180,60))
 
 			button_new_picture.SetFont(fonte_buttons)
 			button_edit.SetFont(fonte_buttons)
 			button_save.SetFont(fonte_buttons)
 			button_back.SetFont(fonte_buttons)
 
+			# button_new_picture.SetBackgroundColour('#21a831')
+			# button_edit.SetBackgroundColour('#21a831')
+			# button_save.SetBackgroundColour('#21a831')
+			# button_back.SetBackgroundColour('#21a831')
+
+			# button_new_picture.SetForegroundColour('#f9f4d1')
+			# button_edit.SetForegroundColour('#f9f4d1')
+			# button_save.SetForegroundColour('#f9f4d1')
+			# button_back.SetForegroundColour('#f9f4d1')
+
 			# button_new_picture.Bind(wx.EVT_BUTTON, self.onTakeNewPicture)
 			# button_edit.Bind(wx.EVT_BUTTON, onEditPicture)
 			# button_save.Bind(wx.EVT_BUTTON, self.onSaveData)
-			# button_back.Bind(wx.EVT_BUTTON, onBackToMenu)
+			button_back.Bind(wx.EVT_BUTTON, self.onBackToMenu)
 
 			box_hor_buttons.Add(button_new_picture, flag=wx.EXPAND|wx.LEFT|wx.RIGHT,border=20)
 			box_hor_buttons.Add(button_edit, flag=wx.EXPAND|wx.LEFT|wx.RIGHT,border=20)
@@ -140,22 +151,29 @@ class antibiogApp(wx.Frame):
 
 		#Info. Window
 		elif flag_main_window==3:
-			print "Cambiaste a la 3ra pantalla"
+			print('3ra pantalla')
 
-		#self.Bind(wx.EVT_CLOSE,self.onEventClose)
 
 		self.SetTitle('Halo`s Diameter Detector')
 		self.Show(True)
 
 
-	def onEventClose(self,e):
-		# self.Close()
+	def OnCloseWindow(self,e):
+		global flag_main_window
 		dial = wx.MessageDialog(None, 'Estas seguro?', 'Pregunta',    wx.YES_NO | wx.NO_DEFAULT | wx.ICON_QUESTION)
 		ret = dial.ShowModal()
+		flag_main_window=9
 		if ret == wx.ID_YES:
 			self.Destroy()
 		else:
 			e.Veto()
+
+	
+	def onBackToMenu(self,e):
+		global flag_main_window
+		flag_main_window=4
+		self.Close()
+
 	
 			
 def onButtonNewPress(e):
@@ -184,11 +202,20 @@ def main():
 
 	global wind_app
 	global flag_main_window
+	global app
 
-	if flag_main_window == 2:
-		app_second = wx.App()
-		wind_app_second = antibiogApp(None)
-		app_second.MainLoop()
+	while flag_main_window==2 or flag_main_window==4:
+		app.__del__()
+		app.__init__()
+		if flag_main_window == 2:
+			
+			wind_app_second = antibiogApp(None)
+			
+		elif flag_main_window==4:
+			# app = wx.App()
+			wind_app = antibiogApp(None)
+			# app.MainLoop()
+		app.MainLoop()
 
 
     
