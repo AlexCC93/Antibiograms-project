@@ -120,9 +120,9 @@ class antibiogApp(wx.Frame):
 			# button_save.SetForegroundColour('#f9f4d1')
 			# button_back.SetForegroundColour('#f9f4d1')
 
-			# button_new_picture.Bind(wx.EVT_BUTTON, self.onTakeNewPicture)
-			# button_edit.Bind(wx.EVT_BUTTON, onEditPicture)
-			# button_save.Bind(wx.EVT_BUTTON, self.onSaveData)
+			button_new_picture.Bind(wx.EVT_BUTTON, self.onTakeNewPicture)
+			button_edit.Bind(wx.EVT_BUTTON, self.onEditPicture)
+			button_save.Bind(wx.EVT_BUTTON, self.onSaveData)
 			button_back.Bind(wx.EVT_BUTTON, self.onBackToMenu)
 
 			box_hor_buttons.Add(button_new_picture, flag=wx.EXPAND|wx.LEFT|wx.RIGHT,border=20)
@@ -152,7 +152,7 @@ class antibiogApp(wx.Frame):
 		#Info. Window
 		elif flag_main_window==3:
 
-			info1='INFORMACION'
+			info1='INFORMATION'
 			info2='''Antibiogramas Detector
 Version:	1.00.XX
 By:	UCB La Catolica Group'''
@@ -173,17 +173,20 @@ and so on.....'''
 			div_line=wx.StaticLine(self.panel_3)
 			text_info3=wx.StaticText(self.panel_3,label=info3)
 			text_info4=wx.StaticText(self.panel_3,label=info4)
-			button_back_info=wx.Button(self.panel_3,wx.ID_ANY,label='Atras')
+			button_back_info=wx.Button(self.panel_3,wx.ID_ANY,label='Atras',size=(70,40))
 
 
 			text_info1.SetFont(fonte_inf_titles)
 			text_info2.SetFont(fonte_inf)
 			text_info3.SetFont(fonte_inf_titles)
 			text_info4.SetFont(fonte_inf)
+			button_back_info.SetFont(fonte_inf)
 			text_info1.SetForegroundColour(wx.WHITE)
 			text_info2.SetForegroundColour(wx.WHITE)
 			text_info3.SetForegroundColour(wx.WHITE)
 			text_info4.SetForegroundColour(wx.WHITE)
+			button_back_info.SetForegroundColour(wx.WHITE)
+			button_back_info.SetBackgroundColour(wx.BLACK)
 
 			bag_sizer2.Add(text_info1,pos=(0,0),span=(1,2),flag=wx.ALIGN_LEFT|wx.ALL,border=28)
 			bag_sizer2.Add(text_info2,pos=(1,1),flag=wx.EXPAND|wx.ALIGN_CENTER|wx.ALL,border=15)
@@ -205,6 +208,9 @@ and so on.....'''
 			self.SetSize(420,520)#,400)
 			#I need to add more functions for that works
 			# self.SetScrollbar(wx.VERTICAL, 0, 400, 520)
+
+		elif flag_main_window==4:
+			print('This is the edit window............. Maybe it has to be in cv2')
 
 
 		self.Bind(wx.EVT_CLOSE, self.onEventClose)
@@ -242,6 +248,18 @@ and so on.....'''
 		flag_main_window = 9
 		self.Destroy()
 
+	def onTakeNewPicture(sefl,e):
+		print('this call to function <getting centers and circles> or something named like that')
+
+	def onEditPicture(self,e):
+		global flag_main_window
+		self.Close()
+		flag_main_window=4
+
+	def onSaveData(sefl,e):
+		print('Here we have to put the code to save data on the cloud')
+
+
 #Global sttatements
 flag_main_window = 1
 app = wx.App()
@@ -256,7 +274,7 @@ def main():
 	global flag_main_window
 	global app
 
-	while flag_main_window==1 or flag_main_window==2 or flag_main_window==3:
+	while flag_main_window==1 or flag_main_window==2 or flag_main_window==3 or flag_main_window==4:
 		app.__init__()
 		wind_app=antibiogApp(None)
 		app.MainLoop()
